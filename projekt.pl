@@ -6,15 +6,28 @@ bedroom(room1).
 bedroom(room2).
 bedroom(room3).
 
+bedroom_tiles(4).
+
+furniture(bed).
+furniture(cabinet).
+furniture(tv).
+furniture(closet).
+furniture(plant).
+furniture(rug).
+
+% contains(X, Y, Z) :- room(X), furniture(Y), Z > 0, Z =< 4, .
+% furniture(X, Y, Z) :- bedroom(X), .
+
 corridor.
 
 corridor(corridor).
-% corridor(1).
-% corridor(2).
-% corridor(3).
+corridor_tiles().
+% corridor_tiles :- findall(X, bedroom(X), Bedrooms), length(Bedrooms, Count), retractall(corridor_tiles(_)), assert(corridor_tiles(Count)).
 
 room(X) :- bedroom(X).
 room(corridor).
+
+room_tiles(X,Y) :- bedroom(X) -> Y > 0, Y =< 4 ; corridor(X) -> Y > 0, findall(Z, bedroom(Z), Bedrooms), length(Bedrooms, Count), Y =< Count.
 
 % neighbours(room1, room2).
 % neighbours(room2, room1).
@@ -24,11 +37,12 @@ room(corridor).
 % neighbours(X, corridor) :- bedroom(X).
 % neighbours(corridor, X) :- bedroom(X).
 
+% neighbours(X, Y) :- neighbours(Y, X), !.
+
 % % alias
 % nbrs(X, Y) :- neighbours(X,Y).
 
 door(X, Y) :- bedroom(X), corridor(Y) ; bedroom(Y), corridor(X).
-% door(X, Y) :- bedroom(Y), corridor(X).
 
 :- dynamic location/1.
 location(corridor).
@@ -39,7 +53,4 @@ go(X) :- room(X), clause(location(CurrentLocation), true), corridor(CurrentLocat
 :- dynamic position/1.
 position(1).
 pos(X) :- position(X).
-% walk(X) :- X > 0, location(corridor) -> findall(X, bedroom(X), Bedrooms), length(Bedrooms, Count), X =< Count ; X =< 4.
-walk(X) :- X > 0, location(corridor) -> findall(Y, bedroom(Y), Bedrooms), length(Bedrooms, Count), X =< Count, retractall(position(_)), assert(position(X)) ; 
-                                        not(location(corridor)), X =< 4, retractall(position(_)), assert(position(X)).
-
+walk(X) :- clause(location(CurrentLocation), true), room_tiles(CurrentLocation, X) -> retractall(position(_)), assert(position(X)).

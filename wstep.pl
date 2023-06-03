@@ -19,7 +19,9 @@ b(f).
 c(g).
 c(h).
 c(i).
-a(X, Y) :- b(X), !, c(Y).
+% a(X, Y) :- b(X), !, c(Y).
+% a(X, Y) :- b(X), c(Y).
+a(X, Y) :- b(X), c(Y), !.
 
 %dynamiczne
 :- dynamic na_biurku/1.
