@@ -34,8 +34,6 @@ zabierz(X):-retract(na_biurku(X)),assert(w_kieszeni(X)),write('zabrales przedmio
 rozmowa:-write('co chcesz zabrac z biurka?'),
     nl,
     read(X),
-    na_biurku(X)
-    ->  zabierz(X);
-    write('nie ma tego na biurku').
+    na_biurku(X) ->  zabierz(X); write('nie ma tego na biurku').
 
 ksiazka('fajny tytul', [autor1, 'autor 2']).
