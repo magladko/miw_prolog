@@ -29,3 +29,7 @@ The map consists of 4 rooms, 3 bedrooms, and one corridor. The bedrooms are divi
 - `pick_item` $-$ moves the lying object to the inventory. It first moves the object from the top, subsequent calls move the object from the bottom.
 
 - `escape` $-$ the goal of the game, winning occurs after calling it in the corridor when the player has a crowbar in the inventory.
+
+## 3. Execution
+
+The easiest way to execute the project is to paste the [source](./project.pl) to the online [SWISH](https://swish.swi-prolog.org/) interpreter.
